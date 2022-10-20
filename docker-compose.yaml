@@ -1,0 +1,60 @@
+---
+version: '3.3'
+services:
+  traefik:
+    container_name: traefik
+    image: "traefik:v2.9.1"
+    command:
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.http-external.address=:8080"
+      - "--entrypoints.https-external.address=:8443"
+      - "--entrypoints.plex.address=:32400"
+      - "--entrypoints.http.http.redirections.entrypoint.to=https"
+      - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.http-external.http.redirections.entrypoint.to=https-external"
+      - "--entrypoints.http-external.http.redirections.entrypoint.scheme=https"
+      - "--certificatesresolvers.cloudflare.acme.email=${TRAEFIK_ACME_EMAIL}"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers[1]=1.0.0.1:53"
+      - "--certificatesresolvers.cloudflare.acme.storage=/acme.json"
+      - "--log.filePath=/traefik.log"
+      - "--log.level=ERROR"
+      - "--accesslog=true"
+      - "--accesslog.filepath=/access.log"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=web"
+    restart: unless-stopped
+    networks:
+      - web
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+      - 8443:8443
+      - 32400:32400
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_API_URI}`)"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_ACME_CN}"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=${TRAEFIK_ACME_SANS}"
+      - "traefik.http.routers.traefik.service=api@internal"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${TRAEFIK_DATA_DIR}/acme.json:/acme.json
+      - ${TRAEFIK_LOG_DIR}/traefik.log:/traefik.log
+      - ${TRAEFIK_LOG_DIR}/access.log:/access.log
+    environment:
+      - CF_DNS_API_TOKEN=${TRAEFIK_CF_API_TOKEN}
+networks:
+  web:
+    name: web
+

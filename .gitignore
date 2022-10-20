@@ -1,0 +1,3 @@
+# Exclude Docker Compose environment data
+.env
+
