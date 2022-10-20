@@ -11,11 +11,11 @@
 6. In the cloned repo folder, create a file named .env and populate the environment variables specified below.
 7. Run ```docker compose up -d```
 ## Environment Variables
-**TRAEFIK_ACME_EMAIL**: Email address used for ACME/LetsEncrypt registration.
-**TRAEFIK_API_URI**: The hostname that the Traefik dashboard should be accessible through. E.g. 'traefik.example.com'.
-**TRAEFIK_ACME_CN**: Common name of the requested LetsEncrypt certificate. E.g. 'example.com'.
-**TRAEFIK_ACME_SANS**: Comma-separated list of SANS (including wildcard SANS) to include in the LetsEncrypt certificate. E.g. '*.example.com,*.int.example.com'.
-**TRAEFIK_DATA_DIR**: Path on the docker host to be mapped into the container for storing Traefik application data, i.e LetsEncrypt certs in acme.json.
-**TRAEFIK_LOG_DIR**: Path on the docker host to be mapped into the container for storing Traefik access and application logs.
-**TRAEFIK_CF_API_TOKEN**: Cloudflare API token with DNS edit permissions to the zone(s) specified in TRAEFIK_ACME_CN and TRAEFIK_ACME_SANS.
+**TRAEFIK_ACME_EMAIL**: Email address used for ACME/LetsEncrypt registration.  
+**TRAEFIK_API_URI**: The hostname that the Traefik dashboard should be accessible through. E.g. 'traefik.example.com'.  
+**TRAEFIK_ACME_CN**: Common name of the requested LetsEncrypt certificate. E.g. 'example.com'.  
+**TRAEFIK_ACME_SANS**: Comma-separated list of SANS (including wildcard SANS) to include in the LetsEncrypt certificate. E.g. '*.example.com,*.int.example.com'.  
+**TRAEFIK_DATA_DIR**: Path on the docker host to be mapped into the container for storing Traefik application data, i.e LetsEncrypt certs in acme.json.  
+**TRAEFIK_LOG_DIR**: Path on the docker host to be mapped into the container for storing Traefik access and application logs.  
+**TRAEFIK_CF_API_TOKEN**: Cloudflare API token with DNS edit permissions to the zone(s) specified in TRAEFIK_ACME_CN and TRAEFIK_ACME_SANS.  
 
