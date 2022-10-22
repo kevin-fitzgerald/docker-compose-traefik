@@ -2,5 +2,5 @@
 .env
 
 # Exclude Docker Compose secrets
-**/*.secrets
+**/*.secret
 
