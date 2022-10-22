@@ -1,3 +1,6 @@
 # Exclude Docker Compose environment data
 .env
 
+# Exclude Docker Compose secrets
+**/*.secrets
+
